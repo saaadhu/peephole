@@ -1,0 +1,11 @@
+<html>
+  <body>
+   <% form_for(@post) do |f| %>
+    <%= f.label :title, 'Title' %>
+    <%= f.text_field :title %> 
+    <br />
+    <%= f.text_area :content %>
+   <% end %>
+   <script type="text/javascript" src="wmd/wmd.js"></script>
+  </body>
+</html>

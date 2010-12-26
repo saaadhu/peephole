@@ -1,0 +1,22 @@
+<% @posts.each do |post| %>
+
+  <h4> <%= post.title %></h4>
+
+  <h6> <%= post.user.full_name %> | <%= post.get_formatted_post_time %></h6>
+
+  <div class="contents">
+<%= raw post.content %>
+  </div> 
+
+  <div> <%= link_to 'Edit', edit_post_path(post) if post.can_edit? session[:user] %>
+
+  <br /> <br /> 
+
+<% end %>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var converter = new Attacklab.showdown.converter();
+        $(".contents").each(function()
+          { this.innerHTML = converter.makeHtml($(this).text()); });
+     });
+</script>
