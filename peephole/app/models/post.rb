@@ -2,7 +2,10 @@ class Post < ActiveRecord::Base
 
   belongs_to :user
 
-  validates_presence_of :title, :content
+  has_many :responses, :class_name => "Post"
+  belongs_to :parent, :class_name => "Post"
+
+  validates_presence_of :title, :content, :user
 
   before_create :update_datetime
   before_update :update_datetime
@@ -18,4 +21,9 @@ class Post < ActiveRecord::Base
   def can_edit? (user)
     self.user == user
   end
+
+  def blog_entry?
+    self.post_type == :blog
+  end
+
 end

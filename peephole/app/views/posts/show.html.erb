@@ -1,0 +1,27 @@
+<%= render 'postview' %>
+
+<%= form_for(@response) do |f| %>
+  <%= hidden_field_tag :post_id, @post.id %>
+  <div id="wmd-editor" class="wmd-panel">
+    <div id="wmd-button-bar"> </div>
+    <%= f.text_area :content, :id=>'wmd-input' ,:style => 'height:100px' %>
+  </div>
+  <div class="action">
+    <%= f.submit 'Add Response' %>
+  </div>
+<% end %>
+
+<% @post.responses.all.each do |response| %>
+  <h6> <%= response.title %></h6>
+
+  <h6> <%= response.user.full_name %> | <%= response.get_formatted_post_time %></h6>
+
+  <div class="contents">
+<%= raw response.content %>
+  </div> 
+<% end %>
+<script type="text/javascript">
+  wmd_options = { "output" : "Markdown" };
+</script>
+
+<script type="text/javascript" src="/javascripts/wmd/wmd.js"></script>

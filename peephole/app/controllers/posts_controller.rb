@@ -1,9 +1,15 @@
 class PostsController < ApplicationController
 
-  before_filter :authenticate, :except => [:index]
+  before_filter :authenticate
 
   def new
     @post = Post.new
+    @post.post_type = params[:post_type]
+  end
+  
+  def show
+    @post = Post.find(params[:id])
+    @response = @post.responses.create
   end
 
   def edit
@@ -11,7 +17,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
+    @posts = Post.find_all_by_post_type(params[:post_type])
   end
 
   def update
@@ -25,10 +31,20 @@ class PostsController < ApplicationController
   end
   
   def create
-    @post = Post.new(params[:post])
-    @post.user = session[:user]
+
+    if params[:post_id].nil? then
+      # This is a root post - not a response
+      @post = Post.new(params[:post])
+    else
+      # This is a response, so attach to parent post
+      parent = Post.find(params[:post_id])
+      @post = parent.responses.build(params[:post])
+      @post.title = "Re: #{parent.title}"
+    end
+
+    @post.user = current_user
     if @post.save then
-      redirect_to posts_url
+      redirect_to posts_url, :post_type => @post.post_type
     else
       render :action => :new
     end

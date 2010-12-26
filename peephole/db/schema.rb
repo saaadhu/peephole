@@ -17,7 +17,9 @@ ActiveRecord::Schema.define(:version => 20101225142335) do
     t.string   "author"
     t.text     "content"
     t.datetime "posted_at"
+    t.string   "post_type"
     t.integer  "user_id"
+    t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,6 +1,12 @@
 Peephole::Application.routes.draw do
   match 'posts/upload_file' => 'posts#upload_file'
   resources :posts
+
+  match 'blog' => 'posts#index', :post_type => :blog
+  match 'blog/:action' => 'posts', :post_type => :blog
+  match 'blog/:action/:id' => 'posts', :post_type => :blog
+  match 'blog/show/:id' => 'posts#show', :post_type => :blog
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
