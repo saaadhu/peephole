@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-
   before_filter :authenticate
 
   def new
@@ -31,7 +30,6 @@ class PostsController < ApplicationController
   end
   
   def create
-
     if params[:post_id].nil? then
       # This is a root post - not a response
       @post = Post.new(params[:post])
@@ -43,10 +41,20 @@ class PostsController < ApplicationController
     end
 
     @post.user = current_user
-    if @post.save then
-      redirect_to posts_url, :post_type => @post.post_type
-    else
-      render :action => :new
+    save_success =  @post.save
+    puts "AJAX : #{request.xhr?}"
+    respond_to do |format|
+    format.html { 
+      if request.xhr? then
+          render :text => save_success ? 'Y' : 'N'
+      else
+          if save_success then
+            redirect_to (@post.parent || @post)
+          else
+            render :action => :new
+          end
+      end
+    }
     end
   end
 end

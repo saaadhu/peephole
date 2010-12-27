@@ -1,6 +1,6 @@
 <%= render 'postview' %>
 
-<%= form_for(@response) do |f| %>
+<%= form_for(@response, :remote => true) do |f| %>
   <%= hidden_field_tag :post_id, @post.id %>
   <div id="wmd-editor" class="wmd-panel">
     <div id="wmd-button-bar"> </div>
@@ -8,6 +8,7 @@
   </div>
   <div class="action">
     <%= f.submit 'Add Response' %>
+    <div id="response_status_div" name="response_status_div"></div>
   </div>
 <% end %>
 
@@ -22,6 +23,20 @@
 <% end %>
 <script type="text/javascript">
   wmd_options = { "output" : "Markdown" };
+  $(document).ready(function()
+  {
+    $("#new_post")
+    .bind("ajax:loading", function(evt, data, status) { $("response_status_div").text("Submitting.."); });
+    $("#new_post")
+    .bind("ajax:success ajax:failure", function(evt, data, status, xhr) 
+      { 
+        $("#response_status_div")
+          .html( xhr.responseText == 'Y'
+             ? "Response updated." : "Failed to record response.")
+          .effect("highlight"); 
+      });
+    });
 </script>
+
 
 <script type="text/javascript" src="/javascripts/wmd/wmd.js"></script>
