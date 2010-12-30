@@ -1,12 +1,18 @@
+<% content_for  :title do %>
+  Blog
+<% end %>
+
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "blog.css" %>
+<% end %>
 <% @posts.each do |post| %>
   <% @post = post %>
-  <%= render 'postview' %>
-  <%= link_to 'View', post_path(@post) %> | <%= @post.responses.count %> comments
+  <%= render "#{@post.post_type}view" %>
 <% end %>
 <script type="text/javascript">
     $(document).ready(function() {
         var converter = new Attacklab.showdown.converter();
-        $(".contents").each(function()
+        $(".post_contents").each(function()
           { this.innerHTML = converter.makeHtml($(this).text()); });
      });
 </script>

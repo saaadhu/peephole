@@ -1,0 +1,16 @@
+<div class="post">
+  <div class="post_title">
+    <%= link_to @post.title, url_for(@post) %>
+  </div>
+
+  <div class="post_started"> <%= @post.user.display_name %> | <%= @post.get_formatted_post_time %></div>
+
+  <div class="post_contents">
+<%= raw @post.content %>
+  </div> 
+
+  <div class="post_actions"> 
+    <%= @post.responses.count %> comments
+    <%= link_to 'Edit', edit_post_path(@post) if @post.can_edit? session[:user] %>
+  </div>
+</div>

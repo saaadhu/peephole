@@ -1,0 +1,50 @@
+
+.post
+{
+  float:left;
+  margin-left:50px;
+  padding:10px;
+  width:960px;
+  border-bottom:1px dotted;
+}
+
+.post_title
+{
+  float:left;
+  width:80%;
+  font-family:Verdana;
+  font-size:20px;
+  font-weight:bold
+}
+
+.post_contents
+{
+  padding-top:30px;
+  padding-bottom:15px;
+  width:80%;
+  font-family:verdana;
+  font-size:12px;
+  float:none;
+  clear:left;
+}
+
+a
+{
+  text-decoration:none;
+}
+
+.post_started
+{
+  float:right;
+  font-family:Verdana;
+  font-size:10px;
+  float:left;
+  padding-top : 5px;
+}
+
+.post_actions
+{
+  float:left;
+  font-family:Verdana;
+  font-size:10px;
+}

@@ -15,26 +15,22 @@ class ApplicationController < ActionController::Base
   end  
   
   def current_user
-    if session[:user_id].nil? then
-      User.all.first
+    if session[:user].nil? then
+      authenticate
     else
-      User.find(session[:user_id])
+      session[:user]
     end
   end
 
   def authenticate
-# Cut out this crap and try to use some form of Active Directory authentication instead
-# Maybe internally redirect to an IIS Server, get the credentials authenticated 
-    unless User.all.any?
-      user1 = User.new
-      user1.name = 'skselvaraj'
-      user1.full_name = 'Senthil Kumar Selvaraj'
-      user1.save!
-      user2 = User.new
-      user2.name = 'sounderarajan.d'
-      user2.full_name = 'Soundararajan Dakshinamoorthy'
-      user2.save!
+    if session[:user] then
+      return
     end
-    session[:user_id] = User.all.first.id
+    if params[:uname] then
+      user = User.find_by_login_name params[:uname]
+      session[:user] = user
+    else
+      redirect_to 'http://10.220.2.59/auth/login.aspx'
+    end
   end
 end

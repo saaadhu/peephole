@@ -8,6 +8,7 @@ class PostsController < ApplicationController
   
   def show
     @post = Post.find(params[:id])
+    
     @response = @post.responses.create
   end
 
@@ -16,7 +17,8 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.find_all_by_post_type(params[:post_type])
+    @posts = Post.find_all_by_post_type(params[:post_type], :order => 'posted_at DESC')
+    render "#{params[:post_type]}index.html.erb"
   end
 
   def update

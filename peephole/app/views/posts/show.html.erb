@@ -1,4 +1,7 @@
-<%= render 'postview' %>
+<% content_for :title do %>
+  <%= @post.title %>
+<% end %>
+<%= render "#{@post.post_type}view" %>
 
 <%= form_for(@response, :remote => true) do |f| %>
   <%= hidden_field_tag :post_id, @post.id %>
@@ -17,7 +20,7 @@
 
   <h6> <%= response.user.full_name %> | <%= response.get_formatted_post_time %></h6>
 
-  <div class="contents">
+  <div class="post_contents">
 <%= raw response.content %>
   </div> 
 <% end %>
@@ -35,6 +38,9 @@
              ? "Response updated." : "Failed to record response.")
           .effect("highlight"); 
       });
+        var converter = new Attacklab.showdown.converter();
+        $(".post_contents").each(function()
+          { this.innerHTML = converter.makeHtml($(this).text()); });
     });
 </script>
 
